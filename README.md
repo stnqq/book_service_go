@@ -10,7 +10,7 @@
     1. Клонирование проекта: 
         - git clone https://github.com/stnqq/book_service_go.git
     2. Переход в папку проекта: 
-        - book_service_go
+        - cd book_service_go
     3. Сборка и запуск контейнера:
         - docker-compose up --build
     4. Проверка сервиса: 
@@ -59,7 +59,10 @@
                     "created_at": "2025-01-15T23:04:31.261519Z"
                 }
     5. Завершение проекта:
-       - docker-compose down
+        - Если вы в терминале находитесь в контейнере, 
+            то используйте сочетание клавиш ctrl + c
+        - Чтобы удалить контейнер, выполните команду:
+            - docker-compose down
 
 ## Docker Compose
     - Сервис и база данных PostgreSQL запускаются через `docker-compose`.
