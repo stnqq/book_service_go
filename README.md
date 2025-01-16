@@ -3,9 +3,66 @@
 ## Описание
     Сервис для управления книгами с использованием Gin и PostgreSQL.
 
-## Системные требования
-    1. Установить Docker и Docker Compose.
-    2. Выполнить `docker-compose up --build`.
+## Инструкция по запуску и использованию
+
+    0. Подготовительный этап:
+        0.1. Если у вас нет docker'а установите docker
+    1. Клонирование проекта: 
+        - git clone https://github.com/stnqq/book_service_go.git
+    2. Переход в папку проекта: 
+        - cd book_service_go
+    3. Сборка и запуск контейнера:
+        - docker-compose up --build
+    4. Проверка сервиса: 
+    - Добавление книги (POST /books)
+        - Принимает JSON с полями:
+
+            {
+                "title": "Название книги",
+                "author": "Автор книги"
+            }
+
+        - Возвращает ID созданной книги и статус `201 Created`.
+
+        Пример запроса (через Postman):
+            POST http://localhost:8080/books
+                {
+                    "Title": "New Test Book",
+                    "Author": "Doe John"
+                }
+            Ответ на запрос:
+                201 Created
+                {
+                    "id": 3
+                }
+
+    - Получение информации о книге по ID (GET /books/:id)
+        - Возвращает JSON с информацией о книге:
+            {
+                "id": 1,
+                "title": "Название книги",
+                "author": "Автор книги",
+                "created_at": "Дата создания"
+            }
+            
+            - Если книга не найдена, возвращает статус `404 Not Found`.
+
+        Пример запроса (через Postman):
+            GET http://localhost:8080/books/2
+
+            Ответ на запрос:
+                200 OK
+                {
+                    "id": 1,
+                    "title": "Go Programming",
+                    "author": "John Doe",
+                    "created_at": "2025-01-15T23:04:31.261519Z"
+                }
+    5. Завершение проекта:
+        - Если вы в терминале находитесь в контейнере, 
+            то используйте сочетание клавиш ctrl + c
+        - Чтобы удалить контейнер, выполните команду:
+            - docker-compose down
 
 ## Docker Compose
     - Сервис и база данных PostgreSQL запускаются через `docker-compose`.
@@ -77,8 +134,10 @@
      ```
 
 ## Миграция для базы данных
-    - Использован инструмент [pressly/goose](https://github.com/pressly/goose).
-    - Создание файла для миграции: goose -dir pkg/db/migrations create books_table sql
+    - Использован инструмент [pressly/goose]
+        - (https://github.com/pressly/goose).
+    - Создание файла для миграции:
+        - goose -dir pkg/db/migrations create books_table sql
     - Создание таблицы `books` с полями:
 
         id (UUID или SERIAL, Primary Key),
@@ -87,7 +146,7 @@
         created_at (TIMESTAMP, Not Null, default NOW()).
 
     - Реализована миграция для создания таблицы `books`:
-    goose -dir pkg/db/migrations postgres "postgresql://user:password@localhost:5432/books_db?sslmode=disable" up
+        - goose -dir pkg/db/migrations postgres "postgresql://user:password@localhost:5432/books_db?sslmode=disable" up
 
 ## Multi-stage Dockerfile
     - Образ с минимальным размером.
