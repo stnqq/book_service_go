@@ -12,6 +12,6 @@ func LoggingMiddleware() gin.HandlerFunc {
 		start := time.Now()
 		c.Next()
 		duration := time.Since(start)
-		log.Printf("%s %s %d %s", c.Request.Method, c.Request.URL.Path, c.Writer.Status(), duration)
+		log.Printf("[MIDDLEWARE] %s %s %d %s", c.Request.Method, c.Request.URL.String(), c.Writer.Status(), duration)
 	}
 }
